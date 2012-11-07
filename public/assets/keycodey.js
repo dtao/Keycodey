@@ -10,14 +10,27 @@ function keepCodesOnScreen() {
   return keepCodesOnScreenCheckbox.is(":checked");
 }
 
-function addToScreenIfReady() {
-  if (currentCodes.charCode && currentCodes.keyCode) {
-    var codeElement = $("<div>").addClass("codes");
-    $("<div>").addClass("char-code").text("Char: " + currentCodes.charCode).appendTo(codeElement);
-    $("<div>").addClass("key-code").text("Key: " + currentCodes.keyCode).appendTo(codeElement);
-    codeElement.appendTo(screenWrapper);
-    currentCodes = {};
-  }
+function addToScreen() {
+  setTimeout(function() {
+    if (currentCodes.keyCode) {
+      var codeElement     = $("<div>").addClass("codes");
+      var keyCodeElement  = $("<div>").addClass("key-code").text("Key: " + currentCodes.keyCode);
+      var charCodeElement = $("<div>").addClass("char-code").html("&nbsp;").appendTo(codeElement);
+
+      if (currentCodes.charCode) {
+        if (currentCodes.char) {
+          charCodeElement.text(currentCodes.char + " (" + currentCodes.charCode + ")");
+        } else {
+          charCodeElement.text("Char: " + currentCodes.charCode)
+        }
+      }
+
+      keyCodeElement.appendTo(codeElement);
+      charCodeElement.appendTo(codeElement);
+      codeElement.appendTo(screenWrapper);
+      currentCodes = {};
+    }
+  }, 0);
 }
 
 function addChar(char) {
@@ -26,12 +39,12 @@ function addChar(char) {
 
 function addCharCode(code) {
   currentCodes.charCode = code;
-  addToScreenIfReady();
+  addToScreen();
 }
 
 function addKeyCode(code) {
   currentCodes.keyCode = code;
-  addToScreenIfReady();
+  addToScreen();
 }
 
 function clear() {
@@ -42,6 +55,7 @@ function clear() {
 
 $("body").keypress(function(e) {
   if (keepCodesOnScreen()) {
+    addChar(String.fromCharCode(e.charCode));
     addCharCode(e.charCode);
   } else {
     keyCharElement.text("Char: " + e.charCode);
@@ -52,8 +66,18 @@ $("body").keydown(function(e) {
   if (keepCodesOnScreen()) {
     addKeyCode(e.keyCode);
   } else {
+    keyCharElement.empty();
     keyCodeElement.text("Code: " + e.keyCode);
   }
+
+  // Prevent Backspace from navigating back.
+  if (e.keyCode === 8) {
+    return false;
+  }
+});
+
+$("body").keyup(function(e) {
+  return false;
 });
 
 keepCodesOnScreenCheckbox.change(clear);

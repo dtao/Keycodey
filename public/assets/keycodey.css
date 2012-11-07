@@ -1,3 +1,7 @@
+body {
+  padding-bottom: 50px;
+}
+
 #screen-wrapper .codes {
   display: inline-block;
   height: 100px;
