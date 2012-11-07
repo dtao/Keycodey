@@ -4,12 +4,25 @@
     <link href="assets/keycodey.css" rel="stylesheet" />
   </head>
   <body>
+    <div id="screen-wrapper">
+    </div>
+
     <div id="keycode-wrapper">
       <div class="container">
         <div id="keychar"></div>
         <div id="keycode"></div>
       </div>
     </div>
+    <div id="settings">
+      <label>
+        <input id="keep-codes-on-screen" type="checkbox" />
+        Keep codes on screen
+      </label>
+      <div>
+        <a href="javascript:void(0);" class="clear">Clear</a>
+      </div>
+    </div>
   </body>
+  <script src="assets/jquery-1.8.2.min.js" type="text/javascript"></script>
   <script src="assets/keycodey.js" type="text/javascript"></script>
 </html>
