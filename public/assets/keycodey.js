@@ -13,7 +13,7 @@ function keepCodesOnScreen() {
 function addToScreen() {
   setTimeout(function() {
     if (currentCodes.keyCode) {
-      var codeElement     = $("<div>").addClass("codes");
+      var codeElement     = $("<div>").addClass("codes").css("opacity", 0);
       var keyCodeElement  = $("<div>").addClass("key-code").text("Key: " + currentCodes.keyCode);
       var charCodeElement = $("<div>").addClass("char-code").html("&nbsp;").appendTo(codeElement);
 
@@ -28,6 +28,9 @@ function addToScreen() {
       keyCodeElement.appendTo(codeElement);
       charCodeElement.appendTo(codeElement);
       codeElement.appendTo(screenWrapper);
+
+      codeElement.animate({ opacity: 1 }, 250);
+
       currentCodes = {};
     }
   }, 0);
